@@ -4,13 +4,17 @@ package com.samir.popularmovies.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Movie implements Parcelable {
+public class MovieDB implements Parcelable {
     public String name;
     public String image;
 
-    public Movie(Parcel parcel) {
+    public MovieDB(Parcel parcel) {
         name = parcel.readString();
         image = parcel.readString();
+    }
+
+    public MovieDB() {
+
     }
 
     @Override
@@ -19,15 +23,15 @@ public class Movie implements Parcelable {
         parcel.writeString(image);
     }
 
-    public final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
+    public final Parcelable.Creator<MovieDB> CREATOR = new Parcelable.Creator<MovieDB>() {
         @Override
-        public Movie createFromParcel(Parcel parcel) {
-            return new Movie(parcel);
+        public MovieDB createFromParcel(Parcel parcel) {
+            return new MovieDB(parcel);
         }
 
         @Override
-        public Movie[] newArray(int i) {
-            return new Movie[i];
+        public MovieDB[] newArray(int i) {
+            return new MovieDB[i];
         }
 
     };
