@@ -1,10 +1,7 @@
 package com.samir.popularmovies.service.integration;
 
 
-import android.util.Log;
-
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.input.ReaderInputStream;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,5 +41,11 @@ public class HttpClient {
                 is.close();
             }
         }
+    }
+
+    public String execute(final MoviedbHttpRequest moviedbHttpRequest) throws IOException {
+        final String url = moviedbHttpRequest.getUrl();
+        final String result = downloadUrl(url);
+        return result;
     }
 }

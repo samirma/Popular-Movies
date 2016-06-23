@@ -1,14 +1,19 @@
 package com.samir.popularmovies.service;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.samir.popularmovies.model.MovieDB;
+import com.samir.popularmovies.service.integration.HttpClient;
+import com.samir.popularmovies.service.integration.MoviedbHttpRequest;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ThemoviedbService extends AsyncTask<Void, Void, List<MovieDB>> {
 
+    public static final String TAG = ThemoviedbService.class.getSimpleName();
     private ThemoviedbDelegate delegate;
 
     public ThemoviedbService() {
@@ -19,11 +24,12 @@ public class ThemoviedbService extends AsyncTask<Void, Void, List<MovieDB>> {
 
         final ArrayList<MovieDB> movieDBs = new ArrayList<>();
 
-        movieDBs.add(new MovieDB());
-        movieDBs.add(new MovieDB());
-        movieDBs.add(new MovieDB());
-        movieDBs.add(new MovieDB());
-        movieDBs.add(new MovieDB());
+        try {
+            final String result = new HttpClient().execute(new MoviedbHttpRequest());
+        } catch (IOException e) {
+            Log.e(TAG, e.getMessage(), e);
+        }
+
 
         return movieDBs;
     }
