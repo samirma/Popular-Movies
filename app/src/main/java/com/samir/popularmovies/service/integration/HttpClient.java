@@ -11,7 +11,7 @@ import java.nio.charset.Charset;
 
 public class HttpClient {
 
-    private String downloadUrl(final String myurl) throws IOException {
+    private String getUrlResponse(final String myurl) throws IOException {
         InputStream is = null;
         // Only display the first 500 characters of the retrieved
         // web page content.
@@ -45,7 +45,7 @@ public class HttpClient {
 
     public String execute(final MoviedbHttpRequest moviedbHttpRequest) throws IOException {
         final String url = moviedbHttpRequest.getUrl();
-        final String result = downloadUrl(url);
+        final String result = getUrlResponse(url);
         return result;
     }
 }

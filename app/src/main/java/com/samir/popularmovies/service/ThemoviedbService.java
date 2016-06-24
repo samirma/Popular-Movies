@@ -3,6 +3,8 @@ package com.samir.popularmovies.service;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.samir.popularmovies.AplicationPopularMovies;
+import com.samir.popularmovies.R;
 import com.samir.popularmovies.model.MovieDB;
 import com.samir.popularmovies.service.integration.HttpClient;
 import com.samir.popularmovies.service.integration.MoviedbHttpRequest;
@@ -25,8 +27,10 @@ public class ThemoviedbService extends AsyncTask<Void, Void, List<MovieDB>> {
         final ArrayList<MovieDB> movieDBs = new ArrayList<>();
 
         try {
-            final String result = new HttpClient().execute(new MoviedbHttpRequest());
-        } catch (IOException e) {
+            final HttpClient httpClient = new HttpClient();
+            final MoviedbHttpRequest moviedbHttpRequest = new MoviedbHttpRequest(AplicationPopularMovies.getContext().getString(R.string.popular));
+            final String result = httpClient.execute(moviedbHttpRequest);
+        } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
         }
 

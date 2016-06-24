@@ -12,8 +12,14 @@ public class MoviedbHttpRequest {
     private static final String API_KEY_APPEND = "?api_key=" + API_KEY;
     public static final String SERVER = AplicationPopularMovies.getContext().getString(R.string.server);
 
+    private String action;
+
+    public MoviedbHttpRequest(String action) {
+        this.action = action;
+    }
+
     public String getUrl() {
-        return String.format("%s%s%s", SERVER, API_KEY);
+        return String.format("%s%s%s", SERVER, action, API_KEY_APPEND);
     }
 
 }
