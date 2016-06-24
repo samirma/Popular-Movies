@@ -7,21 +7,21 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.samir.popularmovies.R;
-import com.samir.popularmovies.model.MovieDB;
+import com.samir.popularmovies.model.Movie;
 
 import java.util.List;
 
-public class MovieAdapter extends ArrayAdapter<MovieDB> {
+public class MovieAdapter extends ArrayAdapter<Movie> {
 
 
-    public MovieAdapter(Context context, int resource, List<MovieDB> objects) {
+    public MovieAdapter(Context context, int resource, List<Movie> objects) {
         super(context, resource, objects);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        MovieDB item = getItem(position);
+        Movie item = getItem(position);
 
 
         if (convertView == null) {

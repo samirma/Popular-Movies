@@ -37,6 +37,8 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.1.0'
     compile group: 'commons-io', name: 'commons-io', version: '2.5'
 
+    compile 'com.google.code.gson:gson:2.7'
+
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'

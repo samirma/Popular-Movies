@@ -6,12 +6,9 @@ import android.view.View;
 import android.widget.GridLayout;
 
 import com.samir.popularmovies.R;
-import com.samir.popularmovies.model.MovieDB;
+import com.samir.popularmovies.model.Movie;
 import com.samir.popularmovies.service.ThemoviedbDelegate;
 import com.samir.popularmovies.service.ThemoviedbService;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class MoviesActivity extends AppCompatActivity implements ThemoviedbDelegate {
 
@@ -33,7 +30,7 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbDeleg
     }
 
     @Override
-    public void add(MovieDB movieDB) {
+    public void add(Movie movieDB) {
         final View movieDBThumbnail = getMovieDBThumbnail(movieDB);
         gridLayout.addView(movieDBThumbnail);
     }
@@ -43,7 +40,7 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbDeleg
         gridLayout.removeAllViewsInLayout();
     }
 
-    private View getMovieDBThumbnail(final MovieDB movieDB) {
+    private View getMovieDBThumbnail(final Movie movieDB) {
 
         final View inflate = getLayoutInflater().inflate(R.layout.movie, gridLayout, false);
 

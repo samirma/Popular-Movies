@@ -1,12 +1,6 @@
 package com.samir.popularmovies;
 
-import com.samir.popularmovies.model.MovieDB;
-import com.samir.popularmovies.service.ThemoviedbDelegate;
-import com.samir.popularmovies.service.ThemoviedbService;
-
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
