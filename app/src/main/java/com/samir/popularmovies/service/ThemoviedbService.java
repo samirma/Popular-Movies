@@ -4,10 +4,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.samir.popularmovies.AplicationPopularMovies;
-import com.samir.popularmovies.R;
 import com.samir.popularmovies.model.Movie;
 import com.samir.popularmovies.model.Page;
+import com.samir.popularmovies.service.integration.Command;
 import com.samir.popularmovies.service.integration.HttpClient;
 import com.samir.popularmovies.service.integration.MoviedbHttpRequest;
 
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ThemoviedbService extends AsyncTask<Void, Void, List<Movie>> {
+public class ThemoviedbService extends AsyncTask<Command, Void, List<Movie>> {
 
     public static final String TAG = ThemoviedbService.class.getSimpleName();
     private ThemoviedbDelegate delegate;
@@ -24,16 +23,21 @@ public class ThemoviedbService extends AsyncTask<Void, Void, List<Movie>> {
     }
 
     @Override
-    protected List<Movie> doInBackground(Void... params) {
+    protected List<Movie> doInBackground(Command... params) {
+
+        Command command;
+        if (params != null && params.length > 0){
+            command = params[0];
+        } else {
+            command = SettiringManager.getSettiringManager().getSelectedCommad();
+        }
 
         final ArrayList<Movie> movieDBs = new ArrayList<>();
 
-        String result = null;
-
         try {
             final HttpClient httpClient = new HttpClient();
-            final MoviedbHttpRequest moviedbHttpRequest = new MoviedbHttpRequest(AplicationPopularMovies.getContext().getString(R.string.popular));
-            result = httpClient.execute(moviedbHttpRequest);
+            final MoviedbHttpRequest moviedbHttpRequest = new MoviedbHttpRequest(command);
+            final String result = httpClient.execute(moviedbHttpRequest);
 
             final Page page = new Gson().fromJson(result, Page.class);
 
