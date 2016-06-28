@@ -3,12 +3,12 @@
     <string name="title_activity_settings">Settings</string>
     <string name="action_settings">Settings</string>
 
-    <string-array name="list_preference_types">
+    <string-array name="list_preference_movie_categories">
         <item>Popular</item>
         <item>Top rated </item>
     </string-array>
 
-    <string-array name="list_preference_entry_values">
+    <string-array name="list_preference_movie_categories_values">
         <item>1</item>
         <item>2</item>
     </string-array>
