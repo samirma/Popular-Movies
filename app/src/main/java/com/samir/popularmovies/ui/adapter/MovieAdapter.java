@@ -13,12 +13,17 @@ import com.samir.popularmovies.R;
 import com.samir.popularmovies.model.Movie;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
     private List<Movie> movies;
     public Context context;
+
+    public void addMovie(final Movie movieDB) {
+        movies.add(movieDB);
+    }
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -31,8 +36,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         }
     }
 
-    public MovieAdapter(List<Movie> movies) {
-        this.movies = movies;
+    public MovieAdapter() {
+        this.movies = new ArrayList<>();
     }
 
     @Override
@@ -52,9 +57,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
         final Movie movie = movies.get(position);
 
+        final String postUrl = getPostUrl(movie);
 
         Picasso.with(context)
-                .load(getPostUrl(movie))
+                .load(postUrl)
                 .config(Bitmap.Config.RGB_565)
                 .into(holder.thumbnail);
 

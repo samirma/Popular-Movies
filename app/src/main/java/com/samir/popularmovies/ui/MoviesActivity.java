@@ -3,19 +3,21 @@ package com.samir.popularmovies.ui;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.GridLayout;
 
 import com.samir.popularmovies.R;
 import com.samir.popularmovies.model.Movie;
 import com.samir.popularmovies.service.ThemoviedbDelegate;
 import com.samir.popularmovies.service.ThemoviedbService;
+import com.samir.popularmovies.ui.adapter.MovieAdapter;
 
 public class MoviesActivity extends AppCompatActivity implements ThemoviedbDelegate {
 
-    GridLayout gridLayout;
+    RecyclerView recyclerView;
+    private MovieAdapter movieAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +25,10 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbDeleg
         setContentView(R.layout.activity_movies);
 
         final View viewById = findViewById(R.id.id_thumbnail_layout);
-        gridLayout = (GridLayout) viewById;
+        recyclerView = (RecyclerView) viewById;
 
+        movieAdapter = new MovieAdapter();
+        recyclerView.setAdapter(movieAdapter);
 
         final ThemoviedbService themoviedbService = new ThemoviedbService();
 
@@ -34,22 +38,15 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbDeleg
 
     @Override
     public void add(Movie movieDB) {
-        final View movieDBThumbnail = getMovieDBThumbnail(movieDB);
-        gridLayout.addView(movieDBThumbnail);
+        movieAdapter.addMovie(movieDB);
     }
 
     @Override
     public void onPreExecute() {
-        gridLayout.removeAllViewsInLayout();
+        recyclerView.removeAllViewsInLayout();
     }
 
-    private View getMovieDBThumbnail(final Movie movieDB) {
 
-        final View inflate = getLayoutInflater().inflate(R.layout.movie, gridLayout, false);
-
-        return inflate;
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
