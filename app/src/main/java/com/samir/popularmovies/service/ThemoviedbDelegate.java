@@ -6,4 +6,7 @@ public interface ThemoviedbDelegate {
     void add(Movie movieDB);
 
     void onPreExecute();
+
+    void posExecute();
+
 }

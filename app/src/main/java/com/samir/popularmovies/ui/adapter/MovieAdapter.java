@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
-import com.squareup.picasso.Callback;
 import com.samir.popularmovies.R;
 import com.samir.popularmovies.model.Movie;
 import com.squareup.picasso.Picasso;
@@ -67,7 +65,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     }
 
     private String getPostUrl(Movie movie) {
-        final String format = String.format("%s%s%s", context.getString(R.string.server_img), context.getString(R.string.w185) + movie.getId());
+        final String format = String.format("%s%s%s", context.getString(R.string.server_img), context.getString(R.string.w185), movie.getPoster_path());
         return format;
     }
 

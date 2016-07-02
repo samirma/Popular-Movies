@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ThemoviedbService extends AsyncTask<Command, Void, List<Movie>> {
+public class ThemoviedbService {
 
     public static final String TAG = ThemoviedbService.class.getSimpleName();
     private ThemoviedbDelegate delegate;
@@ -22,7 +22,6 @@ public class ThemoviedbService extends AsyncTask<Command, Void, List<Movie>> {
     public ThemoviedbService() {
     }
 
-    @Override
     protected List<Movie> doInBackground(Command... params) {
 
         Command command;
@@ -51,24 +50,44 @@ public class ThemoviedbService extends AsyncTask<Command, Void, List<Movie>> {
         return movieDBs;
     }
 
-    @Override
     protected void onPreExecute() {
-        super.onPreExecute();
         delegate.onPreExecute();
     }
 
     public void requestMovies(ThemoviedbDelegate delegate) {
         this.delegate = delegate;
 
-        execute();
+        new AsyncTask<Command, Void, List<Movie>>() {
+
+            @Override
+            protected List<Movie> doInBackground(Command... params) {
+                return ThemoviedbService.this.doInBackground(params);
+            }
+
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                ThemoviedbService.this.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(List<Movie> movieDBs) {
+                ThemoviedbService.this.onPostExecute(movieDBs);
+            }
+
+        }.execute();
 
     }
 
-    @Override
     protected void onPostExecute(List<Movie> movieDBs) {
 
         for (Movie movieDB:movieDBs) {
             delegate.add(movieDB);
         }
+
+        delegate.posExecute();
+
     }
+
 }

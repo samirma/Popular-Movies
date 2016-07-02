@@ -3,6 +3,8 @@ package com.samir.popularmovies.ui;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,6 +12,7 @@ import android.view.View;
 
 import com.samir.popularmovies.R;
 import com.samir.popularmovies.model.Movie;
+import com.samir.popularmovies.service.SettiringManager;
 import com.samir.popularmovies.service.ThemoviedbDelegate;
 import com.samir.popularmovies.service.ThemoviedbService;
 import com.samir.popularmovies.ui.adapter.MovieAdapter;
@@ -18,6 +21,8 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbDeleg
 
     RecyclerView recyclerView;
     private MovieAdapter movieAdapter;
+    private ThemoviedbService themoviedbService;
+    private String commandString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +35,29 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbDeleg
         movieAdapter = new MovieAdapter();
         recyclerView.setAdapter(movieAdapter);
 
-        final ThemoviedbService themoviedbService = new ThemoviedbService();
+        final GridLayoutManager mLayoutManager = new GridLayoutManager(this, 2);
 
+        recyclerView.setLayoutManager(mLayoutManager);
+
+        themoviedbService = new ThemoviedbService();
+
+        loadMovies();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        String commandString = new SettiringManager().getCommandString();
+        if (!commandString.equals(this.commandString)) {
+            loadMovies();
+        }
+    }
+
+    private void loadMovies() {
+        this.commandString = new SettiringManager().getCommandString();
         themoviedbService.requestMovies(this);
-
     }
 
     @Override
@@ -46,6 +70,10 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbDeleg
         recyclerView.removeAllViewsInLayout();
     }
 
+    @Override
+    public void posExecute() {
+        movieAdapter.notifyDataSetChanged();
+    }
 
 
     @Override

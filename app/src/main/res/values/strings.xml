@@ -2,11 +2,12 @@
     <string name="app_name">"Popular Movies "</string>
     <string name="title_activity_settings">Settings</string>
     <string name="action_settings">Settings</string>
-    <string name="w185">w185/</string>
+    <string name="w185">w185</string>
+    <string name="category">category</string>
 
     <string-array name="list_preference_movie_categories">
         <item>Popular</item>
-        <item>Top rated </item>
+        <item>Top rated</item>
     </string-array>
 
     <string-array name="list_preference_movie_categories_values">
