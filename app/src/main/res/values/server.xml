@@ -3,4 +3,7 @@
     <string name="server">http://api.themoviedb.org/3</string>
     <string name="popular">/movie/popular</string>
     <string name="top_rated">/movie/top_rated</string>
+
+    <string name="server_img">http://image.tmdb.org/t/p/</string>
+
 </resources>

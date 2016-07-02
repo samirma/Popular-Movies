@@ -47,7 +47,6 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbDeleg
 
         final View inflate = getLayoutInflater().inflate(R.layout.movie, gridLayout, false);
 
-
         return inflate;
 
     }
