@@ -67,6 +67,7 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbDeleg
 
     @Override
     public void onPreExecute() {
+        movieAdapter.removeAll();
         recyclerView.removeAllViewsInLayout();
     }
 
