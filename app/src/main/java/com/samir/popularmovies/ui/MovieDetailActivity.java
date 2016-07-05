@@ -1,16 +1,15 @@
 package com.samir.popularmovies.ui;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.samir.popularmovies.R;
 import com.samir.popularmovies.model.Movie;
 import com.samir.popularmovies.service.ThemoviedbService;
+import com.samir.popularmovies.util.DateUtil;
 import com.squareup.picasso.Picasso;
 
 public class MovieDetailActivity extends AppCompatActivity {
@@ -22,7 +21,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
         movie = (Movie) getIntent().getExtras().getParcelable(MOVIE);
@@ -40,15 +40,17 @@ public class MovieDetailActivity extends AppCompatActivity {
                 .load(imageUrl)
                 .into(backdrop);
 
-        /*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        */
+
+        setTextIntoTexview(movie.original_title, R.id.title);
+        setTextIntoTexview(movie.overview, R.id.synopsis);
+        setTextIntoTexview(movie.vote_average, R.id.rating);
+        setTextIntoTexview(DateUtil.userFriendlyDate(movie.release_date), R.id.release_date);
+
     }
+
+    public void setTextIntoTexview(final String text, Integer id) {
+        final TextView textView = (TextView)findViewById(id);
+        textView.setText(text);
+    }
+
 }
