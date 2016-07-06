@@ -19,79 +19,18 @@ import java.util.List;
 
 public class ThemoviedbService {
 
-    public static final String TAG = ThemoviedbService.class.getSimpleName();
-    private ThemoviedbDelegate delegate;
 
     public ThemoviedbService() {
     }
 
-    protected List<Movie> doInBackground(Command... params) {
 
-        Command command;
-        if (params != null && params.length > 0){
-            command = params[0];
-        } else {
-            command = SettiringManager.getSettiringManager().getSelectedCommad();
-        }
+    public void requestMovies(final ThemoviedbDelegate delegate) {
 
-        final ArrayList<Movie> movieDBs = new ArrayList<>();
-
-        try {
-            final HttpClient httpClient = new HttpClient();
-            final MoviedbHttpRequest moviedbHttpRequest = new MoviedbHttpRequest(command);
-            final String result = httpClient.execute(moviedbHttpRequest);
-
-            final Page page = new Gson().fromJson(result, Page.class);
-
-            movieDBs.addAll(Arrays.asList(page.getResults()));
-
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage(), e);
-        }
-
-
-        return movieDBs;
-    }
-
-    protected void onPreExecute() {
-        delegate.onPreExecute();
-    }
-
-    public void requestMovies(ThemoviedbDelegate delegate) {
-        this.delegate = delegate;
-
-        new AsyncTask<Command, Void, List<Movie>>() {
-
-            @Override
-            protected List<Movie> doInBackground(Command... params) {
-                return ThemoviedbService.this.doInBackground(params);
-            }
-
-
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                ThemoviedbService.this.onPreExecute();
-            }
-
-            @Override
-            protected void onPostExecute(List<Movie> movieDBs) {
-                ThemoviedbService.this.onPostExecute(movieDBs);
-            }
-
-        }.execute();
+        final MovieListAsyncTask movieListAsyncTask = new MovieListAsyncTask(delegate);
+        movieListAsyncTask.execute();
 
     }
 
-    protected void onPostExecute(List<Movie> movieDBs) {
-
-        for (Movie movieDB:movieDBs) {
-            delegate.add(movieDB);
-        }
-
-        delegate.posExecute();
-
-    }
 
     public String getThumbnail(Movie movie) {
         final Context context = AplicationPopularMovies.getContext();
@@ -105,4 +44,9 @@ public class ThemoviedbService {
         return format;
     }
 
+    public void loadTrailers(final Movie movie, final ThemoviedbDelegate delegate) {
+
+        final TrailerListAsyncTask trailerListAsyncTask = new TrailerListAsyncTask(movie, delegate);
+        trailerListAsyncTask.execute();
+    }
 }

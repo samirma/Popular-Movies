@@ -26,6 +26,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    private ThemoviedbService themoviedbService;
 
 
     @Override
@@ -36,6 +37,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
+        themoviedbService = new ThemoviedbService();
+
         movie = (Movie) getIntent().getExtras().getParcelable(MOVIE);
 
 
@@ -43,7 +46,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         toolbar.setTitle(title);
 
 
-        String imageUrl = new ThemoviedbService().getBackdrop(movie);
+        String imageUrl = themoviedbService.getBackdrop(movie);
 
         Picasso.with(this)
                 .load(imageUrl)
@@ -54,6 +57,14 @@ public class MovieDetailActivity extends AppCompatActivity {
         setTextIntoTexview(movie.overview, R.id.synopsis);
         setTextIntoTexview(movie.vote_average, R.id.rating);
         setTextIntoTexview(DateUtil.userFriendlyDate(movie.release_date), R.id.release_date);
+
+        loadTrailers(movie);
+
+    }
+
+    private void loadTrailers(Movie movie) {
+
+        themoviedbService.loadTrailers(movie, null);
 
     }
 
