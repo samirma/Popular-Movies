@@ -4,7 +4,7 @@ import android.support.test.filters.MediumTest;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.samir.popularmovies.model.Movie;
-import com.samir.popularmovies.service.ThemoviedbDelegate;
+import com.samir.popularmovies.service.ThemoviedbMoviesDelegate;
 import com.samir.popularmovies.service.ThemoviedbService;
 
 import org.junit.Test;
@@ -23,7 +23,7 @@ public class ExampleInstrumentationTest {
 
         final ThemoviedbService themoviedbService = new ThemoviedbService();
 
-        themoviedbService.requestMovies(new ThemoviedbDelegate() {
+        themoviedbService.requestMovies(new ThemoviedbMoviesDelegate() {
             @Override
             public void add(Movie movieDB) {
                 synchronized (themoviedbService) {

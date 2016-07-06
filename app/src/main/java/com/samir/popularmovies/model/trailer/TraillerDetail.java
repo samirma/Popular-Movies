@@ -1,21 +1,26 @@
 package com.samir.popularmovies.model.trailer;
 
-public class TraillerDetail
-{
-    private String site;
+public class TraillerDetail {
 
-    private String id;
+    public String site;
 
-    private String iso_639_1;
+    public String id;
 
-    private String name;
+    public String iso_639_1;
 
-    private String type;
+    public String name;
 
-    private String key;
+    public String type;
 
-    private String iso_3166_1;
+    public String key;
 
-    private String size;
+    public String iso_3166_1;
+
+    public String size;
+
+    public boolean isTrailer(){
+        final boolean isTrailer = "Trailer".equals(type);
+        return isTrailer;
+    }
 
 }

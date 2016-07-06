@@ -19,9 +19,9 @@ public class MovieListAsyncTask extends AsyncTask<Command, Void, List<Movie>> {
 
     public static final String TAG = MovieListAsyncTask.class.getSimpleName();
 
-    ThemoviedbDelegate delegate;
+    ThemoviedbMoviesDelegate delegate;
 
-    public MovieListAsyncTask(ThemoviedbDelegate delegate) {
+    public MovieListAsyncTask(ThemoviedbMoviesDelegate delegate) {
         this.delegate = delegate;
     }
 

@@ -1,26 +1,25 @@
 package com.samir.popularmovies.ui;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.samir.popularmovies.R;
 import com.samir.popularmovies.model.Movie;
 import com.samir.popularmovies.service.SettiringManager;
-import com.samir.popularmovies.service.ThemoviedbDelegate;
+import com.samir.popularmovies.service.ThemoviedbMoviesDelegate;
 import com.samir.popularmovies.service.ThemoviedbService;
 import com.samir.popularmovies.ui.adapter.MovieAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MoviesActivity extends AppCompatActivity implements ThemoviedbDelegate {
+public class MoviesActivity extends AppCompatActivity implements ThemoviedbMoviesDelegate {
 
     @BindView(R.id.id_thumbnail_layout)
     RecyclerView recyclerView;
@@ -28,6 +27,8 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbDeleg
     private MovieAdapter movieAdapter;
     private ThemoviedbService themoviedbService;
     private String commandString;
+
+    private ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,9 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbDeleg
 
     @Override
     public void onPreExecute() {
+
+        progress = ProgressDialog.show(this, getString(R.string.load_title), getString(R.string.load_movie), true);
+
         movieAdapter.removeAll();
         recyclerView.removeAllViewsInLayout();
     }
@@ -78,6 +82,7 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbDeleg
     @Override
     public void posExecute() {
         movieAdapter.notifyDataSetChanged();
+        progress.dismiss();
     }
 
 

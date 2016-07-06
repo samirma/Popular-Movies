@@ -1,5 +1,6 @@
 package com.samir.popularmovies.ui;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -8,15 +9,17 @@ import android.widget.TextView;
 
 import com.samir.popularmovies.R;
 import com.samir.popularmovies.model.Movie;
+import com.samir.popularmovies.model.trailer.Trailer;
+import com.samir.popularmovies.service.ThemoviedbMoviesDelegate;
 import com.samir.popularmovies.service.ThemoviedbService;
+import com.samir.popularmovies.service.ThemoviedbTrailerDelegate;
 import com.samir.popularmovies.util.DateUtil;
 import com.squareup.picasso.Picasso;
 
-import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MovieDetailActivity extends AppCompatActivity {
+public class MovieDetailActivity extends AppCompatActivity implements ThemoviedbTrailerDelegate {
 
     public static final String MOVIE = "movie";
     private Movie movie;
@@ -27,6 +30,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     private ThemoviedbService themoviedbService;
+
+    private ProgressDialog progress;
 
 
     @Override
@@ -73,4 +78,20 @@ public class MovieDetailActivity extends AppCompatActivity {
         textView.setText(text);
     }
 
+
+
+    @Override
+    public void onPreExecute() {
+        progress = ProgressDialog.show(this, getString(R.string.load_title), getString(R.string.load_trailer), true);
+    }
+
+    @Override
+    public void posExecute() {
+        progress.dismiss();
+    }
+
+    @Override
+    public void add(Trailer trailer) {
+
+    }
 }
