@@ -12,16 +12,27 @@ import com.samir.popularmovies.service.ThemoviedbService;
 import com.samir.popularmovies.util.DateUtil;
 import com.squareup.picasso.Picasso;
 
+import butterknife.BindString;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MovieDetailActivity extends AppCompatActivity {
 
     public static final String MOVIE = "movie";
     private Movie movie;
 
+    @BindView(R.id.backdrop)
+    ImageView backdrop;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
@@ -33,8 +44,6 @@ public class MovieDetailActivity extends AppCompatActivity {
 
 
         String imageUrl = new ThemoviedbService().getBackdrop(movie);
-
-        final ImageView backdrop = (ImageView)findViewById(R.id.backdrop);
 
         Picasso.with(this)
                 .load(imageUrl)

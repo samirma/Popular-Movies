@@ -17,9 +17,14 @@ import com.samir.popularmovies.service.ThemoviedbDelegate;
 import com.samir.popularmovies.service.ThemoviedbService;
 import com.samir.popularmovies.ui.adapter.MovieAdapter;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MoviesActivity extends AppCompatActivity implements ThemoviedbDelegate {
 
+    @BindView(R.id.id_thumbnail_layout)
     RecyclerView recyclerView;
+
     private MovieAdapter movieAdapter;
     private ThemoviedbService themoviedbService;
     private String commandString;
@@ -29,8 +34,7 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbDeleg
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
 
-        final View viewById = findViewById(R.id.id_thumbnail_layout);
-        recyclerView = (RecyclerView) viewById;
+        ButterKnife.bind(this);
 
         movieAdapter = new MovieAdapter();
         recyclerView.setAdapter(movieAdapter);
