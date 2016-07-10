@@ -42,6 +42,12 @@
             android:layout_height="wrap_content"
             tools:listitem="@layout/trailer" />
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_reviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/review" />
+
         <TextView
             android:id="@+id/release_date"
             android:layout_width="wrap_content"

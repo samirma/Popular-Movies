@@ -11,9 +11,12 @@ import android.widget.TextView;
 
 import com.samir.popularmovies.R;
 import com.samir.popularmovies.model.Movie;
+import com.samir.popularmovies.model.review.ReviewDetail;
 import com.samir.popularmovies.model.trailer.TrailerDetail;
+import com.samir.popularmovies.service.ThemoviedbReviewDelegate;
 import com.samir.popularmovies.service.ThemoviedbService;
 import com.samir.popularmovies.service.ThemoviedbTrailerDelegate;
+import com.samir.popularmovies.ui.adapter.ReviewAdapter;
 import com.samir.popularmovies.ui.adapter.TrailerAdapter;
 import com.samir.popularmovies.util.DateUtil;
 import com.squareup.picasso.Picasso;
@@ -21,7 +24,7 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MovieDetailActivity extends AppCompatActivity implements ThemoviedbTrailerDelegate {
+public class MovieDetailActivity extends AppCompatActivity implements ThemoviedbTrailerDelegate, ThemoviedbReviewDelegate {
 
     public static final String MOVIE = "movie";
     private Movie movie;
@@ -36,9 +39,13 @@ public class MovieDetailActivity extends AppCompatActivity implements Themoviedb
     private ProgressDialog progress;
 
     @BindView(R.id.recycler_trailers)
-    RecyclerView recyclerView;
+    RecyclerView recyclerViewTrailers;
+
+    @BindView(R.id.recycler_reviews)
+    RecyclerView recyclerViewReview;
 
     private TrailerAdapter trailerAdapter;
+    private ReviewAdapter reviewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +73,18 @@ public class MovieDetailActivity extends AppCompatActivity implements Themoviedb
         final GridLayoutManager mLayoutManager = new GridLayoutManager(this, 1);
 
         trailerAdapter = new TrailerAdapter();
-        recyclerView.setAdapter(trailerAdapter);
+        recyclerViewTrailers.setAdapter(trailerAdapter);
 
-        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerViewTrailers.setLayoutManager(mLayoutManager);
+
+
+        final GridLayoutManager mLayoutManagerR = new GridLayoutManager(this, 1);
+
+        reviewAdapter = new ReviewAdapter();
+        recyclerViewReview.setAdapter(reviewAdapter);
+
+        recyclerViewReview.setLayoutManager(mLayoutManagerR);
+
 
         setTextIntoTexview(movie.original_title, R.id.title);
         setTextIntoTexview(movie.overview, R.id.synopsis);
@@ -77,11 +93,19 @@ public class MovieDetailActivity extends AppCompatActivity implements Themoviedb
 
         loadTrailers(movie);
 
+        loadReviews(movie);
+
     }
 
     private void loadTrailers(Movie movie) {
 
         themoviedbService.loadTrailers(movie, this);
+
+    }
+
+    private void loadReviews(Movie movie) {
+
+        themoviedbService.loadReviews(movie, this);
 
     }
 
@@ -93,12 +117,12 @@ public class MovieDetailActivity extends AppCompatActivity implements Themoviedb
 
     @Override
     public void onPreExecute() {
-        progress = ProgressDialog.show(this, getString(R.string.load_title), getString(R.string.load_trailer), true);
+       // progress = ProgressDialog.show(this, getString(R.string.load_title), getString(R.string.load_trailer), true);
     }
 
     @Override
     public void posExecute() {
-        progress.dismiss();
+        //progress.dismiss();
     }
 
     @Override
@@ -108,6 +132,13 @@ public class MovieDetailActivity extends AppCompatActivity implements Themoviedb
         if (trailer1){
             trailerAdapter.addTrailer(trailer);
         }
+
+    }
+
+    @Override
+    public void add(ReviewDetail detail) {
+
+        reviewAdapter.addReview(detail);
 
     }
 }

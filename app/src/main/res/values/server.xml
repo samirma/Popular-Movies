@@ -4,7 +4,7 @@
     <string name="popular">/movie/popular</string>
     <string name="top_rated">/movie/top_rated</string>
     <string name="trailers">/movie/%1$s/videos</string>
-
+    <string name="review">/movie/%1$s/reviews</string>
 
     <string name="server_img">http://image.tmdb.org/t/p/</string>
 

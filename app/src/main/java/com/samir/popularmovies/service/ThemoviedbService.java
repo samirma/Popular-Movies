@@ -5,6 +5,7 @@ import android.content.Context;
 import com.samir.popularmovies.AplicationPopularMovies;
 import com.samir.popularmovies.R;
 import com.samir.popularmovies.model.Movie;
+import com.samir.popularmovies.ui.MovieDetailActivity;
 
 public class ThemoviedbService {
 
@@ -36,6 +37,12 @@ public class ThemoviedbService {
     public void loadTrailers(final Movie movie, final ThemoviedbTrailerDelegate delegate) {
 
         final TrailerListAsyncTask trailerListAsyncTask = new TrailerListAsyncTask(movie, delegate);
+        trailerListAsyncTask.execute();
+    }
+
+    public void loadReviews(final Movie movie, final ThemoviedbReviewDelegate delegate) {
+
+        final ReviewListAsyncTask trailerListAsyncTask = new ReviewListAsyncTask(movie, delegate);
         trailerListAsyncTask.execute();
     }
 }
