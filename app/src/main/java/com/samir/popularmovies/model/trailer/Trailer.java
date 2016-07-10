@@ -29,6 +29,6 @@ public class Trailer
     @Override
     public String toString()
     {
-        return "ClassPojo [id = "+id+", results = "+results+"]";
+        return "ClassPojo [movieId = "+id+", results = "+results+"]";
     }
 }

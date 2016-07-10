@@ -30,6 +30,10 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         reviews.clear();
     }
 
+    public List<ReviewDetail> getReviews() {
+        return reviews;
+    }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 

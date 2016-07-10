@@ -23,7 +23,7 @@ public class TraillerCommand implements Command {
 
 
         final Context context = AplicationPopularMovies.getContext();
-        String command = String.format(context.getString(R.string.trailers), movie.id);
+        String command = String.format(context.getString(R.string.trailers), String.valueOf(movie.id));
         
         return command;
     }

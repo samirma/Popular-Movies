@@ -1,14 +1,17 @@
 package com.samir.popularmovies.model.review;
 
-public class ReviewDetail {
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+import com.orm.SugarRecord;
 
+public class ReviewDetail extends SugarRecord {
+
+    @Expose
     public String content;
 
-    public String id;
-
+    @Expose
     public String author;
 
-    public String url;
-
+    public Long movieId;
 
 }

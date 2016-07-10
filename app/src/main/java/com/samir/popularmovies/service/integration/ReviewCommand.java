@@ -23,7 +23,7 @@ public class ReviewCommand implements Command {
 
 
         final Context context = AplicationPopularMovies.getContext();
-        String command = String.format(context.getString(R.string.review), movie.id);
+        String command = String.format(context.getString(R.string.review), String.valueOf(movie.id));
         
         return command;
     }

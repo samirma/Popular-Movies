@@ -20,6 +20,7 @@
     <string name="load_trailer">Loading trailers</string>
     <string name="youtube_url">http://www.youtube.com/watch?v=%s</string>
     <string name="youtube_trailer_thumbnail_url">http://img.youtube.com/vi/%s/default.jpg</string>
+    <string name="added">Movie added</string>
 
 
 </resources>

@@ -3,14 +3,20 @@ package com.samir.popularmovies.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+import com.orm.SugarRecord;
+import com.orm.dsl.Table;
+
+@Table
 public class Movie implements Parcelable {
+
+    public Long id;
+
     public String vote_average;
 
     public String backdrop_path;
 
     public String adult;
-
-    public String id;
 
     public String title;
 
@@ -32,6 +38,12 @@ public class Movie implements Parcelable {
 
     public String popularity;
 
+    public Boolean isFavorited;
+
+
+    public Movie() {
+    }
+
 
     @Override
     public int describeContents() {
@@ -40,10 +52,10 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
         dest.writeString(this.vote_average);
         dest.writeString(this.backdrop_path);
         dest.writeString(this.adult);
-        dest.writeString(this.id);
         dest.writeString(this.title);
         dest.writeString(this.overview);
         dest.writeString(this.original_language);
@@ -54,16 +66,14 @@ public class Movie implements Parcelable {
         dest.writeString(this.poster_path);
         dest.writeString(this.video);
         dest.writeString(this.popularity);
-    }
-
-    public Movie() {
+        dest.writeValue(this.isFavorited);
     }
 
     protected Movie(Parcel in) {
+        this.id = (Long) in.readValue(Long.class.getClassLoader());
         this.vote_average = in.readString();
         this.backdrop_path = in.readString();
         this.adult = in.readString();
-        this.id = in.readString();
         this.title = in.readString();
         this.overview = in.readString();
         this.original_language = in.readString();
@@ -74,6 +84,7 @@ public class Movie implements Parcelable {
         this.poster_path = in.readString();
         this.video = in.readString();
         this.popularity = in.readString();
+        this.isFavorited = (Boolean) in.readValue(Boolean.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {

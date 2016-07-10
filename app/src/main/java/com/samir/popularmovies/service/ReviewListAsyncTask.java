@@ -3,7 +3,10 @@ package com.samir.popularmovies.service;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.samir.popularmovies.model.Movie;
 import com.samir.popularmovies.model.review.Review;
 import com.samir.popularmovies.model.review.ReviewDetail;
@@ -45,7 +48,22 @@ public class ReviewListAsyncTask extends AsyncTask<Command, Void, Review>  {
             final MoviedbHttpRequest moviedbHttpRequest = new MoviedbHttpRequest(command);
             final String result = httpClient.execute(moviedbHttpRequest);
 
-            review  = new Gson().fromJson(result, Review.class);
+            final Gson gson = new GsonBuilder()
+                    .addSerializationExclusionStrategy(new ExclusionStrategy() {
+                        @Override
+                        public boolean shouldSkipField(FieldAttributes f) {
+                            final boolean id = f.getName().equals("id");
+                            return id;
+                        }
+                        @Override
+                        public boolean shouldSkipClass(Class<?> clazz) {
+                            return false;
+                        }
+                    })
+                    .create();
+
+            final String review_id = result.replaceAll("\"id\"", "review_id");
+            review  = gson.fromJson(review_id, Review.class);
 
 
         } catch (Exception e) {

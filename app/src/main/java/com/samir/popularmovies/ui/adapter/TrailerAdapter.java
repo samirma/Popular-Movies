@@ -30,6 +30,11 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
         trailers.clear();
     }
 
+    public List<TrailerDetail> getTrailers() {
+        return trailers;
+    }
+
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 

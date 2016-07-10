@@ -44,7 +44,9 @@ public class TrailerListAsyncTask extends AsyncTask<Command, Void, Trailer>  {
             final MoviedbHttpRequest moviedbHttpRequest = new MoviedbHttpRequest(command);
             final String result = httpClient.execute(moviedbHttpRequest);
 
-            trailer  = new Gson().fromJson(result, Trailer.class);
+            final String fixed = result.replaceAll("\"id\"", "review_id");
+
+            trailer  = new Gson().fromJson(fixed, Trailer.class);
 
 
         } catch (Exception e) {
@@ -59,12 +61,13 @@ public class TrailerListAsyncTask extends AsyncTask<Command, Void, Trailer>  {
     @Override
     protected void onPostExecute(Trailer trailer) {
         super.onPostExecute(trailer);
-        final TrailerDetail[] results = trailer.getResults();
+        if (trailer != null ) {
+            final TrailerDetail[] results = trailer.getResults();
 
-        for (TrailerDetail trailerDetail:results) {
-            delegate.add(trailerDetail);
+            for (TrailerDetail trailerDetail : results) {
+                delegate.add(trailerDetail);
+            }
         }
-
         delegate.posExecute();
 
     }
