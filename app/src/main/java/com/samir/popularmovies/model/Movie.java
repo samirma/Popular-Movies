@@ -51,7 +51,7 @@ public class Movie extends Model implements Parcelable {
     public String popularity;
 
     @Column(name = "isFavorited")
-    public Boolean isFavorited;
+    public Boolean isFavorited = false;
 
 
     public Movie() {

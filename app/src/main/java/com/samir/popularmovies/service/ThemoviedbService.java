@@ -5,7 +5,9 @@ import android.content.Context;
 import com.samir.popularmovies.AplicationPopularMovies;
 import com.samir.popularmovies.R;
 import com.samir.popularmovies.model.Movie;
-import com.samir.popularmovies.ui.MovieDetailActivity;
+import com.samir.popularmovies.service.tasks.MovieListAsyncTask;
+import com.samir.popularmovies.service.tasks.ReviewListAsyncTask;
+import com.samir.popularmovies.service.tasks.TrailerListAsyncTask;
 
 public class ThemoviedbService {
 

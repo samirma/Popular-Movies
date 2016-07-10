@@ -1,20 +1,18 @@
-package com.samir.popularmovies.service.integration;
+package com.samir.popularmovies.service.integration.commands;
 
 import android.content.Context;
 
 import com.samir.popularmovies.AplicationPopularMovies;
 import com.samir.popularmovies.R;
 import com.samir.popularmovies.model.Movie;
+import com.samir.popularmovies.service.integration.Command;
 
-/**
- * Created by samirmoreira on 7/6/16.
- */
 
-public class ReviewCommand implements Command {
+public class TraillerCommand implements Command {
 
     private Movie movie;
 
-    public ReviewCommand(Movie movie) {
+    public TraillerCommand(Movie movie) {
         this.movie = movie;
     }
 
@@ -23,7 +21,7 @@ public class ReviewCommand implements Command {
 
 
         final Context context = AplicationPopularMovies.getContext();
-        String command = String.format(context.getString(R.string.review), String.valueOf(movie.id));
+        String command = String.format(context.getString(R.string.trailers), String.valueOf(movie.id));
         
         return command;
     }

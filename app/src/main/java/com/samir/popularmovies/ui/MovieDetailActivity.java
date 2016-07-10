@@ -62,6 +62,7 @@ public class MovieDetailActivity extends AppCompatActivity implements Themoviedb
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+    private final PersistenceService service = new PersistenceService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +119,9 @@ public class MovieDetailActivity extends AppCompatActivity implements Themoviedb
             }
         });
 
+        if (movie.isFavorited || service.isMovieAdded(movie)){
+            favorite.setVisibility(View.GONE);
+        }
 
     }
 
@@ -127,10 +131,9 @@ public class MovieDetailActivity extends AppCompatActivity implements Themoviedb
         final List<TrailerDetail> trailers = trailerAdapter.getTrailers();
         final List<ReviewDetail> reviews = reviewAdapter.getReviews();
 
-        final PersistenceService persistenceService = new PersistenceService();
         try {
 
-            persistenceService.save(movie, trailers, reviews);
+            service.save(movie, trailers, reviews);
             CharSequence text = getString(R.string.added);
             int duration = Toast.LENGTH_SHORT;
 
@@ -139,7 +142,7 @@ public class MovieDetailActivity extends AppCompatActivity implements Themoviedb
         } catch (Exception e) {
 
         }
-        //favorite.setVisibility(Boolean.FALSE.equals(movie.isFavorited)?View.VISIBLE:View.GONE);
+
 
     }
 
@@ -170,6 +173,9 @@ public class MovieDetailActivity extends AppCompatActivity implements Themoviedb
     @Override
     public void posExecute() {
         //progress.dismiss();
+        trailerAdapter.notifyDataSetChanged();
+        reviewAdapter.notifyDataSetChanged();
+
     }
 
     @Override
