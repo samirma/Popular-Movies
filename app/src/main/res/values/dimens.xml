@@ -6,4 +6,8 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="element_margin">10dp</dimen>
+    <dimen name="cardElevation">3dp</dimen>
+    <dimen name="trailer_width">45dp</dimen>
+    <dimen name="trailer_height">40dp</dimen>
+    <dimen name="trailer_botton_margin">3dp</dimen>
 </resources>

@@ -4,7 +4,7 @@ public class Trailer
 {
     private String id;
 
-    private TraillerDetail[] results;
+    private TrailerDetail[] results;
 
     public String getId ()
     {
@@ -16,12 +16,12 @@ public class Trailer
         this.id = id;
     }
 
-    public TraillerDetail[] getResults ()
+    public TrailerDetail[] getResults ()
     {
         return results;
     }
 
-    public void setResults (TraillerDetail[] results)
+    public void setResults (TrailerDetail[] results)
     {
         this.results = results;
     }

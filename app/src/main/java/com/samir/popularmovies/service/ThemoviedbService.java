@@ -33,7 +33,7 @@ public class ThemoviedbService {
         return format;
     }
 
-    public void loadTrailers(final Movie movie, final ThemoviedbMoviesDelegate delegate) {
+    public void loadTrailers(final Movie movie, final ThemoviedbTrailerDelegate delegate) {
 
         final TrailerListAsyncTask trailerListAsyncTask = new TrailerListAsyncTask(movie, delegate);
         trailerListAsyncTask.execute();

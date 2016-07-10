@@ -1,6 +1,6 @@
 package com.samir.popularmovies.model.trailer;
 
-public class TraillerDetail {
+public class TrailerDetail {
 
     public String site;
 
