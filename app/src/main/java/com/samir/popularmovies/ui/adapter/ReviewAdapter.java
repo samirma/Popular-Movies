@@ -33,18 +33,16 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public final ImageView thumbnail;
         public final TextView title;
-        private final Context context;
+        public final TextView author;
         public ReviewDetail detail;
 
         public ViewHolder(View v, Context context) {
             super(v);
-            thumbnail = (ImageView)v.findViewById(R.id.thumbnail_trailer);
 
-            title = (TextView)v.findViewById(R.id.thumbnail_trailer_name);
+            title = (TextView)v.findViewById(R.id.review);
 
-            this.context = context;
+            author = (TextView)v.findViewById(R.id.author);
 
         }
 
@@ -61,7 +59,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         // create a new view
         context = parent.getContext();
         View v = LayoutInflater.from(context)
-                .inflate(R.layout.trailer, parent, false);
+                .inflate(R.layout.review, parent, false);
 
         ViewHolder vh = new ViewHolder(v, context);
         return vh;
@@ -75,6 +73,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         holder.detail = trailerDetail;
 
         holder.title.setText(trailerDetail.content);
+
+        holder.author.setText(trailerDetail.author);
 
     }
 
