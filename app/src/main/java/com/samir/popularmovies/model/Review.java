@@ -1,4 +1,4 @@
-package com.samir.popularmovies.model.review;
+package com.samir.popularmovies.model;
 
 
 public class Review {

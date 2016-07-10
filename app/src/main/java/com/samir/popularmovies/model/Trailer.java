@@ -1,4 +1,4 @@
-package com.samir.popularmovies.model.trailer;
+package com.samir.popularmovies.model;
 
 public class Trailer
 {

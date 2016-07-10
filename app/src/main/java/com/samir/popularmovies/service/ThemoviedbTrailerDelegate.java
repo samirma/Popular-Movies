@@ -1,7 +1,6 @@
 package com.samir.popularmovies.service;
 
-import com.samir.popularmovies.model.trailer.Trailer;
-import com.samir.popularmovies.model.trailer.TrailerDetail;
+import com.samir.popularmovies.model.TrailerDetail;
 
 public interface ThemoviedbTrailerDelegate extends ThemoviedbDelegate {
 

@@ -50,8 +50,8 @@
         app:srcCompat="@android:drawable/btn_star_big_on"
         android:id="@+id/favorite"
         app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="top|right"
-        android:layout_gravity="bottom|left" />
+        app:layout_anchorGravity="top|center_horizontal"
+        android:layout_gravity="bottom|center_horizontal" />
 
 
 </android.support.design.widget.CoordinatorLayout>

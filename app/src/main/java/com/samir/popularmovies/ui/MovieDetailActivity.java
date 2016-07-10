@@ -13,11 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.orm.SugarRecord;
 import com.samir.popularmovies.R;
 import com.samir.popularmovies.model.Movie;
-import com.samir.popularmovies.model.review.ReviewDetail;
-import com.samir.popularmovies.model.trailer.TrailerDetail;
+import com.samir.popularmovies.model.ReviewDetail;
+import com.samir.popularmovies.model.TrailerDetail;
+import com.samir.popularmovies.service.PersistenceService;
 import com.samir.popularmovies.service.ThemoviedbReviewDelegate;
 import com.samir.popularmovies.service.ThemoviedbService;
 import com.samir.popularmovies.service.ThemoviedbTrailerDelegate;
@@ -118,31 +118,27 @@ public class MovieDetailActivity extends AppCompatActivity implements Themoviedb
             }
         });
 
-        favorite.setVisibility(Boolean.FALSE.equals(movie.isFavorited)?View.VISIBLE:View.GONE);
 
     }
 
     private void favoriteMovie(final Movie movie) {
         movie.isFavorited = true;
-        SugarRecord.save(movie);
+
         final List<TrailerDetail> trailers = trailerAdapter.getTrailers();
-        for (TrailerDetail detail: trailers) {
-            detail.movieId = movie.id;
-            SugarRecord.save(detail);
-        }
-
         final List<ReviewDetail> reviews = reviewAdapter.getReviews();
-        for (ReviewDetail detail: reviews) {
-            detail.movieId = movie.id;
-            SugarRecord.save(detail);
+
+        final PersistenceService persistenceService = new PersistenceService();
+        try {
+
+            persistenceService.save(movie, trailers, reviews);
+            CharSequence text = getString(R.string.added);
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(this, text, duration);
+            toast.show();
+        } catch (Exception e) {
+
         }
-
-        CharSequence text = getString(R.string.added);
-        int duration = Toast.LENGTH_SHORT;
-
-        Toast toast = Toast.makeText(this, text, duration);
-        toast.show();
-
         //favorite.setVisibility(Boolean.FALSE.equals(movie.isFavorited)?View.VISIBLE:View.GONE);
 
     }

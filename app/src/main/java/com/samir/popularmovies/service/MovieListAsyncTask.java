@@ -4,12 +4,14 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.samir.popularmovies.model.Movie;
 import com.samir.popularmovies.model.Page;
 import com.samir.popularmovies.service.integration.Command;
 import com.samir.popularmovies.service.integration.HttpClient;
 import com.samir.popularmovies.service.integration.MoviedbHttpRequest;
 
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,6 +22,11 @@ public class MovieListAsyncTask extends AsyncTask<Command, Void, List<Movie>> {
     public static final String TAG = MovieListAsyncTask.class.getSimpleName();
 
     ThemoviedbMoviesDelegate delegate;
+
+    public static final Gson GSON = new GsonBuilder()
+            .excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC)
+            .serializeNulls()
+            .create();
 
     public MovieListAsyncTask(ThemoviedbMoviesDelegate delegate) {
         this.delegate = delegate;
@@ -47,7 +54,8 @@ public class MovieListAsyncTask extends AsyncTask<Command, Void, List<Movie>> {
             final MoviedbHttpRequest moviedbHttpRequest = new MoviedbHttpRequest(command);
             final String result = httpClient.execute(moviedbHttpRequest);
 
-            final Page page = new Gson().fromJson(result, Page.class);
+
+            final Page page = GSON.fromJson(result, Page.class);
 
             movieDBs.addAll(Arrays.asList(page.getResults()));
 

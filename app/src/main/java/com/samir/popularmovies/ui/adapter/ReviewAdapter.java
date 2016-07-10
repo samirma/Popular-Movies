@@ -1,18 +1,14 @@
 package com.samir.popularmovies.ui.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.samir.popularmovies.R;
-import com.samir.popularmovies.model.review.ReviewDetail;
-import com.squareup.picasso.Picasso;
+import com.samir.popularmovies.model.ReviewDetail;
 
 import java.util.ArrayList;
 import java.util.List;

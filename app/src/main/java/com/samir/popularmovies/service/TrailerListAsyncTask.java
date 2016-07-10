@@ -4,15 +4,16 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.samir.popularmovies.model.Movie;
-import com.samir.popularmovies.model.trailer.Trailer;
-import com.samir.popularmovies.model.trailer.TrailerDetail;
+import com.samir.popularmovies.model.Trailer;
+import com.samir.popularmovies.model.TrailerDetail;
 import com.samir.popularmovies.service.integration.Command;
 import com.samir.popularmovies.service.integration.HttpClient;
 import com.samir.popularmovies.service.integration.MoviedbHttpRequest;
 import com.samir.popularmovies.service.integration.TraillerCommand;
 
-import java.util.List;
+import java.lang.reflect.Modifier;
 
 
 public class TrailerListAsyncTask extends AsyncTask<Command, Void, Trailer>  {
@@ -20,6 +21,12 @@ public class TrailerListAsyncTask extends AsyncTask<Command, Void, Trailer>  {
     private static final String TAG = TrailerListAsyncTask.class.getSimpleName();
     private Movie movie;
     private ThemoviedbTrailerDelegate delegate;
+
+    public static final Gson GSON = new GsonBuilder()
+            .excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC)
+            .serializeNulls()
+            .create();
+
 
     public TrailerListAsyncTask(Movie movie, ThemoviedbTrailerDelegate delegate) {
         this.movie = movie;
@@ -46,7 +53,7 @@ public class TrailerListAsyncTask extends AsyncTask<Command, Void, Trailer>  {
 
             final String fixed = result.replaceAll("\"id\"", "review_id");
 
-            trailer  = new Gson().fromJson(fixed, Trailer.class);
+            trailer  = GSON.fromJson(fixed, Trailer.class);
 
 
         } catch (Exception e) {
