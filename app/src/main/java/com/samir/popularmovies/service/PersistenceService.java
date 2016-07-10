@@ -44,7 +44,7 @@ public class PersistenceService {
 
     public List<ReviewDetail> getReviews(final Movie movie) {
         final List<ReviewDetail> execute = new Select()
-                .from(Movie.class)
+                .from(ReviewDetail.class)
                 .where("movieId = ?", movie.id)
                 .execute();
         return execute;
