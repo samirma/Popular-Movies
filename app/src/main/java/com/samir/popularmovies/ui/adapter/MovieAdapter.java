@@ -3,6 +3,7 @@ package com.samir.popularmovies.ui.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import com.samir.popularmovies.R;
 import com.samir.popularmovies.model.Movie;
 import com.samir.popularmovies.service.ThemoviedbService;
+import com.samir.popularmovies.ui.ItemDetailFragment;
 import com.samir.popularmovies.ui.MovieDetailActivity;
 import com.squareup.picasso.Picasso;
 
@@ -22,6 +24,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     private List<Movie> movies;
     public Context context;
 
+    private boolean twopane;
+
     public void addMovie(final Movie movieDB) {
         movies.add(movieDB);
     }
@@ -30,6 +34,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         movies.clear();
     }
 
+    public MovieAdapter(boolean twopane) {
+        this.twopane = twopane;
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -55,9 +62,21 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
 
         private void goToDetail() {
-            final Intent intent = new Intent(context, MovieDetailActivity.class);
-            intent.putExtra(MovieDetailActivity.MOVIE, movie);
-            context.startActivity(intent);
+
+            if (true) {
+                Bundle arguments = new Bundle();
+                arguments.putString(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                ItemDetailFragment fragment = new ItemDetailFragment();
+                fragment.setArguments(arguments);
+                context.getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.item_detail_container, fragment)
+                        .commit();
+            } else  {
+
+                final Intent intent = new Intent(context, MovieDetailActivity.class);
+                intent.putExtra(MovieDetailActivity.MOVIE, movie);
+                context.startActivity(intent);
+            }
         }
     }
 

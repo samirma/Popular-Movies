@@ -31,7 +31,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MovieDetailActivity extends AppCompatActivity implements ThemoviedbTrailerDelegate, ThemoviedbReviewDelegate {
+public class MovieDetailActivity extends AppCompatActivity  {
 
     public static final String MOVIE = "movie";
     private Movie movie;
@@ -45,23 +45,8 @@ public class MovieDetailActivity extends AppCompatActivity implements Themoviedb
 
     private ProgressDialog progress;
 
-    @BindView(R.id.recycler_trailers)
-    RecyclerView recyclerViewTrailers;
-
-    @BindView(R.id.recycler_reviews)
-    RecyclerView recyclerViewReview;
 
 
-    @BindView(R.id.favorite)
-    FloatingActionButton favorite;
-
-    private TrailerAdapter trailerAdapter;
-    private ReviewAdapter reviewAdapter;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
     private final PersistenceService service = new PersistenceService();
 
     @Override
@@ -87,111 +72,9 @@ public class MovieDetailActivity extends AppCompatActivity implements Themoviedb
                 .load(imageUrl)
                 .into(backdrop);
 
-        final GridLayoutManager mLayoutManager = new GridLayoutManager(this, 1);
-
-        trailerAdapter = new TrailerAdapter();
-        recyclerViewTrailers.setAdapter(trailerAdapter);
-
-        recyclerViewTrailers.setLayoutManager(mLayoutManager);
-
-
-        final GridLayoutManager mLayoutManagerR = new GridLayoutManager(this, 1);
-
-        reviewAdapter = new ReviewAdapter();
-        recyclerViewReview.setAdapter(reviewAdapter);
-
-        recyclerViewReview.setLayoutManager(mLayoutManagerR);
-
-
-        setTextIntoTexview(movie.original_title, R.id.title);
-        setTextIntoTexview(movie.overview, R.id.synopsis);
-        setTextIntoTexview(movie.vote_average, R.id.rating);
-        setTextIntoTexview(DateUtil.userFriendlyDate(movie.release_date), R.id.release_date);
-
-        loadTrailers(movie);
-
-        loadReviews(movie);
-
-        favorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                favoriteMovie(movie);
-            }
-        });
-
-        if (movie.isFavorited || service.isMovieAdded(movie)){
-            favorite.setVisibility(View.GONE);
-        }
-
-    }
-
-    private void favoriteMovie(final Movie movie) {
-        movie.isFavorited = true;
-
-        final List<TrailerDetail> trailers = trailerAdapter.getTrailers();
-        final List<ReviewDetail> reviews = reviewAdapter.getReviews();
-
-        try {
-
-            service.save(movie, trailers, reviews);
-            CharSequence text = getString(R.string.added);
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(this, text, duration);
-            toast.show();
-        } catch (Exception e) {
-
-        }
 
 
     }
 
 
-    private void loadTrailers(Movie movie) {
-
-        themoviedbService.loadTrailers(movie, this);
-
-    }
-
-    private void loadReviews(Movie movie) {
-
-        themoviedbService.loadReviews(movie, this);
-
-    }
-
-    public void setTextIntoTexview(final String text, Integer id) {
-        final TextView textView = (TextView) findViewById(id);
-        textView.setText(text);
-    }
-
-
-    @Override
-    public void onPreExecute() {
-        // progress = ProgressDialog.show(this, getString(R.string.load_title), getString(R.string.load_trailer), true);
-    }
-
-    @Override
-    public void posExecute() {
-        //progress.dismiss();
-        trailerAdapter.notifyDataSetChanged();
-        reviewAdapter.notifyDataSetChanged();
-
-    }
-
-    @Override
-    public void add(TrailerDetail trailer) {
-
-        final boolean trailer1 = trailer.isTrailer();
-        if (trailer1) {
-            trailerAdapter.addTrailer(trailer);
-        }
-
-    }
-
-    @Override
-    public void add(ReviewDetail detail) {
-
-        reviewAdapter.addReview(detail);
-
-    }
 }

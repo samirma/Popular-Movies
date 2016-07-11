@@ -29,6 +29,7 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbMovie
     private String commandString;
 
     private ProgressDialog progress;
+    private boolean mTwoPane = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,11 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbMovie
 
         ButterKnife.bind(this);
 
-        movieAdapter = new MovieAdapter();
+        if (findViewById(R.id.item_detail_container) != null) {
+            mTwoPane = true;
+        }
+
+        movieAdapter = new MovieAdapter(mTwoPane);
         recyclerView.setAdapter(movieAdapter);
 
         final GridLayoutManager mLayoutManager = new GridLayoutManager(this, 2);

@@ -39,19 +39,18 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_movie_detail"
-        android:id="@+id/include" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:fabSize="mini"
-        app:srcCompat="@android:drawable/btn_star_big_on"
-        android:id="@+id/favorite"
-        app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="top|center_horizontal"
-        android:layout_gravity="bottom|center_horizontal" />
+        <fragment android:name="com.samir.popularmovies.ui.MovieDetailFragment"
+            android:id="@+id/article_fragment"
+            android:layout_weight="1"
+            android:layout_height="349dp"
+            android:layout_width="wrap_content"
+            tools:layout="@layout/fragment_movie_detail" />
+    </LinearLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>
