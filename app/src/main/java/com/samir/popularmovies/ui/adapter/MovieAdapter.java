@@ -4,16 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
 import com.samir.popularmovies.R;
 import com.samir.popularmovies.model.Movie;
 import com.samir.popularmovies.service.ThemoviedbService;
-import com.samir.popularmovies.ui.ItemDetailFragment;
 import com.samir.popularmovies.ui.MovieDetailActivity;
+import com.samir.popularmovies.ui.MovieDetailFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -21,10 +23,10 @@ import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
-    private List<Movie> movies;
+    private List<Movie> movies = new ArrayList<>();
     public Context context;
 
-    private boolean twopane;
+    private static boolean twopane;
 
     public void addMovie(final Movie movieDB) {
         movies.add(movieDB);
@@ -45,7 +47,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         private final Context context;
         public Movie movie;
 
-        public ViewHolder(View v, Context context) {
+        public ViewHolder(final View v, Context context) {
             super(v);
             thumbnail = (ImageView)v.findViewById(R.id.thumbnail);
             this.view = v;
@@ -63,12 +65,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
         private void goToDetail() {
 
-            if (true) {
+            if (twopane) {
                 Bundle arguments = new Bundle();
-                arguments.putString(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
-                ItemDetailFragment fragment = new ItemDetailFragment();
+                arguments.putParcelable(MovieDetailActivity.MOVIE, movie);
+                MovieDetailFragment fragment = new MovieDetailFragment();
                 fragment.setArguments(arguments);
-                context.getSupportFragmentManager().beginTransaction()
+                ((FragmentActivity)context).getSupportFragmentManager().beginTransaction()
                         .replace(R.id.item_detail_container, fragment)
                         .commit();
             } else  {

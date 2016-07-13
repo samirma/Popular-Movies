@@ -78,7 +78,7 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbMovie
     @Override
     public void onPreExecute() {
 
-        progress = ProgressDialog.show(this, getString(R.string.load_title), getString(R.string.load_movie), true);
+//        progress = ProgressDialog.show(this, getString(R.string.load_title), getString(R.string.load_movie), true);
 
         movieAdapter.removeAll();
         recyclerView.removeAllViewsInLayout();
@@ -87,7 +87,7 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbMovie
     @Override
     public void posExecute() {
         movieAdapter.notifyDataSetChanged();
-        progress.dismiss();
+   //     progress.dismiss();
     }
 
 

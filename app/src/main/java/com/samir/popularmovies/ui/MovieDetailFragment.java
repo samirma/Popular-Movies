@@ -1,7 +1,6 @@
 package com.samir.popularmovies.ui;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -29,6 +28,7 @@ import com.samir.popularmovies.util.DateUtil;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MovieDetailFragment extends Fragment implements ThemoviedbTrailerDelegate, ThemoviedbReviewDelegate {
 
@@ -42,12 +42,13 @@ public class MovieDetailFragment extends Fragment implements ThemoviedbTrailerDe
     @BindView(R.id.favorite)
     FloatingActionButton favorite;
 
-    private ThemoviedbService themoviedbService;
+    private ThemoviedbService themoviedbService = new ThemoviedbService();
 
     private TrailerAdapter trailerAdapter;
     private ReviewAdapter reviewAdapter;
     private Movie movie;
     private PersistenceService service;
+    private View view;
 
 
     public MovieDetailFragment() {
@@ -59,17 +60,37 @@ public class MovieDetailFragment extends Fragment implements ThemoviedbTrailerDe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        final Bundle arguments = getArguments();
+        if (arguments != null && arguments.containsKey(MovieDetailActivity.MOVIE)) {
+
+            movie = arguments.getParcelable(MovieDetailActivity.MOVIE);
+
+        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        final View inflate = inflater.inflate(R.layout.fragment_movie_detail, container, false);
+        view = inflater.inflate(R.layout.fragment_movie_detail, container, false);
+
+        ButterKnife.bind(this, view);
+
+        if (movie != null) {
+            setMovie(movie);
+        }
 
 
+//        String imageUrl = themoviedbService.getBackdrop(movie);
+/*
+        Picasso.with(this)
+                .load(imageUrl)
+                .into(backdrop);
+                */
 
-        return inflate;
+        return view;
     }
 
     public void setMovie(final Movie movie) {
@@ -114,7 +135,7 @@ public class MovieDetailFragment extends Fragment implements ThemoviedbTrailerDe
     }
 
 
-    private void favoriteMovie(final Movie movie) {
+    public void favoriteMovie(final Movie movie) {
         movie.isFavorited = true;
 
         final List<TrailerDetail> trailers = trailerAdapter.getTrailers();
@@ -149,7 +170,7 @@ public class MovieDetailFragment extends Fragment implements ThemoviedbTrailerDe
     }
 
     public void setTextIntoTexview(final String text, Integer id) {
-        final TextView textView = (TextView) this.getActivity().findViewById(id);
+        final TextView textView = (TextView) view.findViewById(id);
         textView.setText(text);
     }
 
