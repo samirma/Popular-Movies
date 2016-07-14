@@ -108,6 +108,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         Picasso.with(context)
                 .load(postUrl)
                 .config(Bitmap.Config.RGB_565)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.error)
                 .into(holder.thumbnail);
 
         holder.movie = movie;

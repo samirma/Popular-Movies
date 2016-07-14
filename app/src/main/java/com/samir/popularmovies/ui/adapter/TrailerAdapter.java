@@ -92,6 +92,8 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
 
         Picasso.with(context)
                 .load(postUrl)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.error)
                 .into(holder.thumbnail);
 
         holder.trailerDetail = trailerDetail;

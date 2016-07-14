@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +33,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.view.View.GONE;
+
 public class MovieDetailFragment extends Fragment implements ThemoviedbTrailerDelegate, ThemoviedbReviewDelegate {
 
+    public static final String TAG = MovieDetailFragment.class.getSimpleName();
     @BindView(R.id.recycler_trailers)
     RecyclerView recyclerViewTrailers;
 
@@ -42,7 +46,7 @@ public class MovieDetailFragment extends Fragment implements ThemoviedbTrailerDe
 
 
     @BindView(R.id.favorite)
-    FloatingActionButton favorite;
+    ImageView favorite;
 
     @BindView(R.id.poster)
     ImageView poster;
@@ -127,13 +131,15 @@ public class MovieDetailFragment extends Fragment implements ThemoviedbTrailerDe
 
         service = new PersistenceService();
         if (movie.isFavorited || service.isMovieAdded(movie)){
-            favorite.setVisibility(View.GONE);
+            favorite.setVisibility(GONE);
         }
 
         String imageUrl = themoviedbService.getBackdrop(movie);
 
         Picasso.with(context)
                 .load(imageUrl)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.error)
                 .into(poster);
 
     }
@@ -146,7 +152,7 @@ public class MovieDetailFragment extends Fragment implements ThemoviedbTrailerDe
         final List<ReviewDetail> reviews = reviewAdapter.getReviews();
 
         try {
-
+            favorite.setVisibility(GONE);
             service.save(movie, trailers, reviews);
             CharSequence text = getString(R.string.added);
             int duration = Toast.LENGTH_SHORT;
@@ -154,7 +160,7 @@ public class MovieDetailFragment extends Fragment implements ThemoviedbTrailerDe
             Toast toast = Toast.makeText(this.getActivity(), text, duration);
             toast.show();
         } catch (Exception e) {
-
+            Log.e(TAG, e.getMessage(), e);
         }
 
 
