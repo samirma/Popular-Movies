@@ -28,8 +28,6 @@ public class MovieInfoActivity extends AppCompatActivity {
 
         movie = getIntent().getExtras().getParcelable(MOVIE);
 
-        final String title = movie.title;
-
         detailFragment = (MovieDetailFragment) getSupportFragmentManager().findFragmentById(R.id.movie_detail_fragment);
 
         detailFragment.setMovie(movie);
