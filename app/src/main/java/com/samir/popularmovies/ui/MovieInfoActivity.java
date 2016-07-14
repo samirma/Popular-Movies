@@ -1,7 +1,7 @@
 package com.samir.popularmovies.ui;
 
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
 import com.samir.popularmovies.R;
 import com.samir.popularmovies.model.Movie;
@@ -9,7 +9,7 @@ import com.samir.popularmovies.service.ThemoviedbService;
 
 import butterknife.ButterKnife;
 
-public class MovieDetailActivity extends AppCompatActivity  {
+public class MovieInfoActivity extends AppCompatActivity {
 
     public static final String MOVIE = "movie";
     private Movie movie;
@@ -21,7 +21,7 @@ public class MovieDetailActivity extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie_detail);
+        setContentView(R.layout.activity_movie_info);
         ButterKnife.bind(this);
 
         themoviedbService = new ThemoviedbService();
@@ -35,6 +35,5 @@ public class MovieDetailActivity extends AppCompatActivity  {
         detailFragment.setMovie(movie);
 
     }
-
 
 }

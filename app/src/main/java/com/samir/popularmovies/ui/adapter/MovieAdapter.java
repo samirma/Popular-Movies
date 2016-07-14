@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import com.samir.popularmovies.R;
 import com.samir.popularmovies.model.Movie;
 import com.samir.popularmovies.service.ThemoviedbService;
-import com.samir.popularmovies.ui.MovieDetailActivity;
+import com.samir.popularmovies.ui.MovieInfoActivity;
 import com.samir.popularmovies.ui.MovieDetailFragment;
 import com.squareup.picasso.Picasso;
 
@@ -67,7 +67,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
             if (twopane) {
                 Bundle arguments = new Bundle();
-                arguments.putParcelable(MovieDetailActivity.MOVIE, movie);
+                arguments.putParcelable(MovieInfoActivity.MOVIE, movie);
                 MovieDetailFragment fragment = new MovieDetailFragment();
                 fragment.setArguments(arguments);
                 ((FragmentActivity)context).getSupportFragmentManager().beginTransaction()
@@ -75,8 +75,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                         .commit();
             } else  {
 
-                final Intent intent = new Intent(context, MovieDetailActivity.class);
-                intent.putExtra(MovieDetailActivity.MOVIE, movie);
+                final Intent intent = new Intent(context, MovieInfoActivity.class);
+                intent.putExtra(MovieInfoActivity.MOVIE, movie);
                 context.startActivity(intent);
             }
         }

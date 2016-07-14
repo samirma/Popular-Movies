@@ -66,9 +66,9 @@ public class MovieDetailFragment extends Fragment implements ThemoviedbTrailerDe
         super.onCreate(savedInstanceState);
 
         final Bundle arguments = getArguments();
-        if (arguments != null && arguments.containsKey(MovieDetailActivity.MOVIE)) {
+        if (arguments != null && arguments.containsKey(MovieInfoActivity.MOVIE)) {
 
-            movie = arguments.getParcelable(MovieDetailActivity.MOVIE);
+            movie = arguments.getParcelable(MovieInfoActivity.MOVIE);
 
         }
 
