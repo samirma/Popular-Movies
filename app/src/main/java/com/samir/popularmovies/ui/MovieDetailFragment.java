@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import com.samir.popularmovies.service.ThemoviedbTrailerDelegate;
 import com.samir.popularmovies.ui.adapter.ReviewAdapter;
 import com.samir.popularmovies.ui.adapter.TrailerAdapter;
 import com.samir.popularmovies.util.DateUtil;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -42,6 +44,9 @@ public class MovieDetailFragment extends Fragment implements ThemoviedbTrailerDe
     @BindView(R.id.favorite)
     FloatingActionButton favorite;
 
+    @BindView(R.id.poster)
+    ImageView poster;
+
     private ThemoviedbService themoviedbService = new ThemoviedbService();
 
     private TrailerAdapter trailerAdapter;
@@ -54,7 +59,6 @@ public class MovieDetailFragment extends Fragment implements ThemoviedbTrailerDe
     public MovieDetailFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override
@@ -82,13 +86,6 @@ public class MovieDetailFragment extends Fragment implements ThemoviedbTrailerDe
             setMovie(movie);
         }
 
-
-//        String imageUrl = themoviedbService.getBackdrop(movie);
-/*
-        Picasso.with(this)
-                .load(imageUrl)
-                .into(backdrop);
-                */
 
         return view;
     }
@@ -132,6 +129,13 @@ public class MovieDetailFragment extends Fragment implements ThemoviedbTrailerDe
         if (movie.isFavorited || service.isMovieAdded(movie)){
             favorite.setVisibility(View.GONE);
         }
+
+        String imageUrl = themoviedbService.getBackdrop(movie);
+
+        Picasso.with(context)
+                .load(imageUrl)
+                .into(poster);
+
     }
 
 

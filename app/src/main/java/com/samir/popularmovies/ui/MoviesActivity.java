@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -45,7 +46,9 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbMovie
         movieAdapter = new MovieAdapter(mTwoPane);
         recyclerView.setAdapter(movieAdapter);
 
-        final GridLayoutManager mLayoutManager = new GridLayoutManager(this, 2);
+        final int spanCount = getSpanCount();
+
+        final GridLayoutManager mLayoutManager = new GridLayoutManager(this, spanCount);
 
         recyclerView.setLayoutManager(mLayoutManager);
 
@@ -53,6 +56,23 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbMovie
 
         loadMovies();
 
+    }
+
+    private int getSpanCount() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        int widthPixels = metrics.widthPixels;
+        int heightPixels = metrics.heightPixels;
+
+        float scaleFactor = metrics.density;
+
+
+        float widthDp = widthPixels / scaleFactor;
+        float heightDp = heightPixels / scaleFactor;
+
+        final int spanCount = (Math.min(widthDp, heightDp) >= 600) ? 3 : 2;
+        return spanCount;
     }
 
     @Override
