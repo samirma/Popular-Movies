@@ -1,7 +1,8 @@
 package com.samir.popularmovies.service;
 
-import com.activeandroid.Model;
-import com.activeandroid.query.Select;
+
+import com.orm.query.Condition;
+import com.orm.query.Select;
 import com.samir.popularmovies.model.Movie;
 import com.samir.popularmovies.model.ReviewDetail;
 import com.samir.popularmovies.model.TrailerDetail;
@@ -18,42 +19,40 @@ public class PersistenceService {
 
 
         for (TrailerDetail detail: trailers) {
-            detail.movieId = movie.id;
+            detail.movieId = movie.getId();
             detail.save();
         }
 
         for (ReviewDetail detail: reviews) {
-            detail.movieId = movie.id;
+            detail.movieId = movie.getId();
             detail.save();
         }
     }
 
     public List<Movie> getMovies() {
-        final List<Movie> execute = new Select()
-                .from(Movie.class).execute();
-        return execute;
+        final List<Movie> movies = Movie.listAll(Movie.class);
+        return movies;
     }
 
     public List<TrailerDetail> getTrailers(final Movie movie) {
-        final List<TrailerDetail> execute = new Select()
-                .from(TrailerDetail.class)
-                .where("movieId = ?", movie.id)
-                .execute();
-        return execute;
+
+        final List<TrailerDetail> list = Select.from(TrailerDetail.class)
+                .where(Condition.prop("movieId").lt(movie.getId()))
+                .list();
+
+        return list;
     }
 
     public List<ReviewDetail> getReviews(final Movie movie) {
-        final List<ReviewDetail> execute = new Select()
-                .from(ReviewDetail.class)
-                .where("movieId = ?", movie.id)
-                .execute();
-        return execute;
+        final List<ReviewDetail> list = Select.from(ReviewDetail.class)
+                .where(Condition.prop("movieId").lt(movie.getId()))
+                .list();
+
+        return list;
     }
 
     public boolean isMovieAdded(Movie movie) {
-        final Model executeSingle = new Select().from(Movie.class)
-                .where("idJson = ?", movie.id)
-                .executeSingle();
-        return  executeSingle != null;
+        final Movie movie1 = Movie.findById(Movie.class, movie.getId());
+        return  movie1 != null;
     }
 }

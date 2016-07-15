@@ -3,13 +3,12 @@ package com.samir.popularmovies;
 import android.content.Context;
 
 import com.facebook.stetho.Stetho;
+import com.orm.SugarApp;
 
 
-public class AplicationPopularMovies extends com.activeandroid.app.Application {
+public class AplicationPopularMovies extends SugarApp {
 
     private static Context context = null;
-
-
 
     @Override
     public void onCreate() {

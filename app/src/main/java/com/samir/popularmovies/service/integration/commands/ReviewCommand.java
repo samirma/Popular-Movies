@@ -24,7 +24,7 @@ public class ReviewCommand extends HttpCommand {
 
 
         final Context context = AplicationPopularMovies.getContext();
-        String command = String.format(context.getString(R.string.review), String.valueOf(movie.id));
+        String command = String.format(context.getString(R.string.review), String.valueOf(movie.getId()));
         
         return command;
     }
