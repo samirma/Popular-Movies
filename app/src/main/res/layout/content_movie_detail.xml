@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:showIn="@layout/activity_movie_info">
+    tools:showIn="@layout/fragment_movie_detail">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -20,8 +20,8 @@
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textAlignment="center" />
 
             <ImageView
                 android:id="@+id/poster"
@@ -44,14 +44,14 @@
                         android:id="@+id/synopsis"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
+                        android:text=""
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                     <TextView
                         android:id="@+id/rating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
+                        android:text=""
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
                 </LinearLayout>
