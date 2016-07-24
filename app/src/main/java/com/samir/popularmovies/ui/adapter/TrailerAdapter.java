@@ -63,7 +63,11 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
 
         private void goToDetail() {
             final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format(context.getString(R.string.youtube_url), trailerDetail.key)));
-            context.startActivity(intent);
+
+            if (intent.resolveActivity(context.getPackageManager()) != null) {
+                context.startActivity(intent);
+            }
+
         }
     }
 
