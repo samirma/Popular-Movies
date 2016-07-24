@@ -40,6 +40,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         this.twopane = twopane;
     }
 
+    public List<Movie> getMovies() {
+        return movies;
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public final ImageView thumbnail;

@@ -2,8 +2,9 @@ package com.samir.popularmovies.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -17,11 +18,16 @@ import com.samir.popularmovies.service.ThemoviedbMoviesDelegate;
 import com.samir.popularmovies.service.ThemoviedbService;
 import com.samir.popularmovies.ui.adapter.MovieAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MoviesActivity extends AppCompatActivity implements ThemoviedbMoviesDelegate {
 
+    public static final String MOVIE_LIST = "MOVIE_LIST";
+    public static final String COMMAND_STRING = "COMMAND_STRING";
     @BindView(R.id.id_thumbnail_layout)
     RecyclerView recyclerView;
 
@@ -54,7 +60,15 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbMovie
 
         themoviedbService = new ThemoviedbService();
 
-        loadMovies();
+        if (savedInstanceState != null) {
+            commandString = savedInstanceState.getString(COMMAND_STRING);
+            final ArrayList<Parcelable> parcelableArrayList = savedInstanceState.getParcelableArrayList(MOVIE_LIST);
+            for(Parcelable parc : parcelableArrayList) {
+                movieAdapter.addMovie((Movie) parc);
+            }
+        } else {
+            loadMovies();
+        }
 
     }
 
@@ -71,8 +85,12 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbMovie
         float widthDp = widthPixels / scaleFactor;
         float heightDp = heightPixels / scaleFactor;
 
-        final int spanCount = (Math.min(widthDp, heightDp) >= 600) ? 3 : 2;
+        final int spanCount = isTablet(widthDp, heightDp) ? 3 : 2;
         return spanCount;
+    }
+
+    private boolean isTablet(float widthDp, float heightDp) {
+        return Math.min(widthDp, heightDp) >= 600;
     }
 
     @Override
@@ -80,7 +98,8 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbMovie
         super.onResume();
 
         String commandString = new SettiringManager().getCommandString();
-        if (!commandString.equals(this.commandString)) {
+        final boolean equals = commandString.equals(this.commandString);
+        if (!equals) {
             loadMovies();
         }
     }
@@ -107,7 +126,7 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbMovie
     @Override
     public void posExecute() {
         movieAdapter.notifyDataSetChanged();
-   //     progress.dismiss();
+        //     progress.dismiss();
     }
 
 
@@ -128,6 +147,17 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbMovie
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+
+        final List<Movie> movies = movieAdapter.getMovies();
+
+        savedInstanceState.putParcelableArrayList(MOVIE_LIST, (ArrayList<? extends Parcelable>) movies);
+        savedInstanceState.putString(COMMAND_STRING, commandString);
+
+        super.onSaveInstanceState(savedInstanceState);
     }
 
 }
