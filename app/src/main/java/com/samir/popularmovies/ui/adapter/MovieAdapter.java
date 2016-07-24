@@ -120,7 +120,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
         holder.movie = movie;
 
-        if (twopane && selectedMovie != null) {
+        if (twopane && selectedMovie == null) {
             selectedMovie = movie;
             goToDetail(movie);
         }

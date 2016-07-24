@@ -36,8 +36,13 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbMovie
     private ThemoviedbService themoviedbService;
     private String commandString;
 
+    private Movie selectedMovie;
+
     private ProgressDialog progress;
     private boolean mTwoPane = false;
+
+    public MoviesActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,4 +166,14 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbMovie
         super.onSaveInstanceState(savedInstanceState);
     }
 
+
+
+    public Movie getSelectedMovie() {
+        return selectedMovie;
+    }
+
+
+    public void setSelectedMovie(Movie selectedMovie) {
+        this.selectedMovie = selectedMovie;
+    }
 }

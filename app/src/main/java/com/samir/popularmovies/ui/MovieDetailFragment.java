@@ -163,6 +163,22 @@ public class MovieDetailFragment extends Fragment implements ThemoviedbTrailerDe
             Log.e(TAG, e.getMessage(), e);
         }
 
+    }
+
+    public void unFavoriteMovie(final Movie movie) {
+        movie.isFavorited = true;
+
+        try {
+            favorite.setVisibility(View.VISIBLE);
+            service.remove(movie);
+            CharSequence text = getString(R.string.added);
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(this.getActivity(), text, duration);
+            toast.show();
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+        }
 
     }
 

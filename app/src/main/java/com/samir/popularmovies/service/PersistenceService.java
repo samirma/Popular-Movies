@@ -4,6 +4,7 @@ package com.samir.popularmovies.service;
 import com.orm.query.Condition;
 import com.orm.query.Select;
 import com.samir.popularmovies.model.Movie;
+import com.samir.popularmovies.model.Review;
 import com.samir.popularmovies.model.ReviewDetail;
 import com.samir.popularmovies.model.TrailerDetail;
 
@@ -54,5 +55,12 @@ public class PersistenceService {
     public boolean isMovieAdded(Movie movie) {
         final Movie movie1 = Movie.findById(Movie.class, movie.getId());
         return  movie1 != null;
+    }
+
+    public void remove(Movie movie) {
+        final Long id = movie.getId();
+        movie.delete();
+        ReviewDetail.deleteAll(ReviewDetail.class, "movieId = ?", String.valueOf(id));
+        TrailerDetail.deleteAll(TrailerDetail.class, "movieId = ?", String.valueOf(id));
     }
 }

@@ -32,8 +32,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.SettingsActivity" />
-        <activity android:name=".ui.MovieInfoActivity" />
+
+
+        <activity android:name=".ui.SettingsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MoviesActivity" />
+        </activity>
+
+        <activity android:name=".ui.MovieInfoActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MoviesActivity" />
+        </activity>
 
         <provider
             android:name=".MoviesProvider"
