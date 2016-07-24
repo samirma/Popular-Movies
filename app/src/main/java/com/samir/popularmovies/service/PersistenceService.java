@@ -38,7 +38,7 @@ public class PersistenceService {
     public List<TrailerDetail> getTrailers(final Movie movie) {
 
         final List<TrailerDetail> list = Select.from(TrailerDetail.class)
-                .where(Condition.prop("movieId").lt(movie.getId()))
+                .where(Condition.prop("MOVIE_ID").eq(movie.getId()))
                 .list();
 
         return list;
@@ -46,7 +46,7 @@ public class PersistenceService {
 
     public List<ReviewDetail> getReviews(final Movie movie) {
         final List<ReviewDetail> list = Select.from(ReviewDetail.class)
-                .where(Condition.prop("movieId").lt(movie.getId()))
+                .where(Condition.prop("MOVIE_ID").eq(movie.getId()))
                 .list();
 
         return list;
@@ -60,7 +60,7 @@ public class PersistenceService {
     public void remove(Movie movie) {
         final Long id = movie.getId();
         movie.delete();
-        ReviewDetail.deleteAll(ReviewDetail.class, "movieId = ?", String.valueOf(id));
-        TrailerDetail.deleteAll(TrailerDetail.class, "movieId = ?", String.valueOf(id));
+        ReviewDetail.deleteAll(ReviewDetail.class, "MOVIE_ID = ?", String.valueOf(id));
+        TrailerDetail.deleteAll(TrailerDetail.class, "MOVIE_ID = ?", String.valueOf(id));
     }
 }

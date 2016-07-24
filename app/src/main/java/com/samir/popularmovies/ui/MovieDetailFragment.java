@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -33,6 +34,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.R.drawable.btn_star_big_off;
+import static android.R.drawable.btn_star_big_on;
 import static android.view.View.GONE;
 
 public class MovieDetailFragment extends Fragment implements ThemoviedbTrailerDelegate, ThemoviedbReviewDelegate {
@@ -46,7 +49,7 @@ public class MovieDetailFragment extends Fragment implements ThemoviedbTrailerDe
 
 
     @BindView(R.id.favorite)
-    ImageView favorite;
+    FloatingActionButton favorite;
 
     @BindView(R.id.poster)
     ImageView poster;
@@ -122,17 +125,7 @@ public class MovieDetailFragment extends Fragment implements ThemoviedbTrailerDe
 
         loadReviews(movie);
 
-        favorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                favoriteMovie(movie);
-            }
-        });
-
-        service = new PersistenceService();
-        if (movie.isFavorited || service.isMovieAdded(movie)){
-            favorite.setVisibility(GONE);
-        }
+        setupFavorite(movie);
 
         String imageUrl = themoviedbService.getBackdrop(movie);
 
@@ -144,6 +137,31 @@ public class MovieDetailFragment extends Fragment implements ThemoviedbTrailerDe
 
     }
 
+    private void setupFavorite(final Movie movie) {
+        View.OnClickListener favoriteListener = null;
+
+        service = new PersistenceService();
+        if (movie.isFavorited || service.isMovieAdded(movie)){
+            favorite.setImageDrawable(ContextCompat.getDrawable(getContext(), btn_star_big_off));
+            favoriteListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    unFavoriteMovie(movie);
+                }
+            };
+        } else {
+            favorite.setImageDrawable(ContextCompat.getDrawable(getContext(), btn_star_big_on));
+            favoriteListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    favoriteMovie(movie);
+                }
+            };
+        }
+
+        favorite.setOnClickListener(favoriteListener);
+    }
+
 
     public void favoriteMovie(final Movie movie) {
         movie.isFavorited = true;
@@ -152,7 +170,6 @@ public class MovieDetailFragment extends Fragment implements ThemoviedbTrailerDe
         final List<ReviewDetail> reviews = reviewAdapter.getReviews();
 
         try {
-            favorite.setVisibility(GONE);
             service.save(movie, trailers, reviews);
             CharSequence text = getString(R.string.added);
             int duration = Toast.LENGTH_SHORT;
@@ -163,15 +180,17 @@ public class MovieDetailFragment extends Fragment implements ThemoviedbTrailerDe
             Log.e(TAG, e.getMessage(), e);
         }
 
+        setupFavorite(movie);
+
+
     }
 
     public void unFavoriteMovie(final Movie movie) {
-        movie.isFavorited = true;
+        movie.isFavorited = false;
 
         try {
-            favorite.setVisibility(View.VISIBLE);
             service.remove(movie);
-            CharSequence text = getString(R.string.added);
+            CharSequence text =  getString(R.string.movie_removed);
             int duration = Toast.LENGTH_SHORT;
 
             Toast toast = Toast.makeText(this.getActivity(), text, duration);
@@ -179,6 +198,8 @@ public class MovieDetailFragment extends Fragment implements ThemoviedbTrailerDe
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
         }
+
+        setupFavorite(movie);
 
     }
 

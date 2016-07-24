@@ -28,7 +28,7 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbMovie
 
     public static final String MOVIE_LIST = "MOVIE_LIST";
     public static final String COMMAND_STRING = "COMMAND_STRING";
-    public static final int TABLET_SIZE = 320;
+    public static final int TABLET_SIZE = 600;
     @BindView(R.id.id_thumbnail_layout)
     RecyclerView recyclerView;
 
@@ -66,13 +66,7 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbMovie
 
         themoviedbService = new ThemoviedbService();
 
-        if (savedInstanceState != null) {
-            commandString = savedInstanceState.getString(COMMAND_STRING);
-            final ArrayList<Parcelable> parcelableArrayList = savedInstanceState.getParcelableArrayList(MOVIE_LIST);
-            for(Parcelable parc : parcelableArrayList) {
-                movieAdapter.addMovie((Movie) parc);
-            }
-        } else {
+        if (savedInstanceState == null) {
             loadMovies();
         }
 
@@ -166,7 +160,15 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbMovie
         super.onSaveInstanceState(savedInstanceState);
     }
 
-
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        commandString = savedInstanceState.getString(COMMAND_STRING);
+        final ArrayList<Parcelable> parcelableArrayList = savedInstanceState.getParcelableArrayList(MOVIE_LIST);
+        for(Parcelable parc : parcelableArrayList) {
+            movieAdapter.addMovie((Movie) parc);
+        }
+    }
 
     public Movie getSelectedMovie() {
         return selectedMovie;
