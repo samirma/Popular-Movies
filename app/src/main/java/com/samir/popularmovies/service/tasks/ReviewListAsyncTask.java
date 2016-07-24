@@ -65,7 +65,9 @@ public class ReviewListAsyncTask extends AsyncTask<Command, Void, List<ReviewDet
                 final MoviedbHttpRequest moviedbHttpRequest = new MoviedbHttpRequest(command);
                 final String result = httpClient.execute(moviedbHttpRequest);
 
-                final Review review = GSON.fromJson(result, Review.class);
+                final String review_id = result.replaceAll("\"id\"", "review_id");
+
+                final Review review = GSON.fromJson(review_id, Review.class);
 
                 list.addAll(Arrays.asList(review.results));
 
