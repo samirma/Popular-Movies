@@ -21,10 +21,12 @@ public class SettiringManager {
 
     final static Map<String, MovieCommand> commands = new HashMap<>();
 
+    public static final String FAVORITE = "3";
+
     static {
         registerCommand("1", new MoviedbPopularCommand());
         registerCommand("2", new MoviedbTopRatedCommand());
-        registerCommand("3", new MoviedbFavoritedCommand());
+        registerCommand(FAVORITE, new MoviedbFavoritedCommand());
 
     }
 

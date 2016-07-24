@@ -24,6 +24,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.samir.popularmovies.service.SettiringManager.FAVORITE;
+
 public class MoviesActivity extends AppCompatActivity implements ThemoviedbMoviesDelegate {
 
     public static final String MOVIE_LIST = "MOVIE_LIST";
@@ -99,7 +101,7 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbMovie
 
         String commandString = new SettiringManager().getCommandString();
         final boolean equals = commandString.equals(this.commandString);
-        if (!equals) {
+        if (!equals || commandString.equals(FAVORITE)) {
             loadMovies();
         }
     }
