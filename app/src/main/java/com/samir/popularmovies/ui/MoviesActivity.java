@@ -108,6 +108,7 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbMovie
     }
 
     private void loadMovies() {
+        setSelectedMovie(null);
         this.commandString = new SettiringManager().getCommandString();
         themoviedbService.requestMovies(this);
     }
