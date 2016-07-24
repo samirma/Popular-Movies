@@ -28,6 +28,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     private static boolean twopane;
 
+    private Movie selectedMovie;
+
     public void addMovie(final Movie movieDB) {
         movies.add(movieDB);
     }
@@ -44,7 +46,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         return movies;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         public final ImageView thumbnail;
         private final View view;
@@ -60,29 +62,29 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    goToDetail();
+                    selectedMovie = movie;
+                    goToDetail(movie);
                 }
             });
 
         }
 
+    }
 
-        private void goToDetail() {
+    public void goToDetail(Movie movie) {
+        if (twopane) {
+            Bundle arguments = new Bundle();
+            arguments.putParcelable(MovieInfoActivity.MOVIE, movie);
+            MovieDetailFragment fragment = new MovieDetailFragment();
+            fragment.setArguments(arguments);
+            ((FragmentActivity)context).getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.item_detail_container, fragment)
+                    .commit();
+        } else  {
 
-            if (twopane) {
-                Bundle arguments = new Bundle();
-                arguments.putParcelable(MovieInfoActivity.MOVIE, movie);
-                MovieDetailFragment fragment = new MovieDetailFragment();
-                fragment.setArguments(arguments);
-                ((FragmentActivity)context).getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.item_detail_container, fragment)
-                        .commit();
-            } else  {
-
-                final Intent intent = new Intent(context, MovieInfoActivity.class);
-                intent.putExtra(MovieInfoActivity.MOVIE, movie);
-                context.startActivity(intent);
-            }
+            final Intent intent = new Intent(context, MovieInfoActivity.class);
+            intent.putExtra(MovieInfoActivity.MOVIE, movie);
+            context.startActivity(intent);
         }
     }
 
@@ -118,7 +120,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
         holder.movie = movie;
 
+        if (twopane && selectedMovie != null) {
+            selectedMovie = movie;
+            goToDetail(movie);
+        }
+
     }
+
 
 
     // Return the size of your dataset (invoked by the layout manager)

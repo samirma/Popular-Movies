@@ -28,6 +28,7 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbMovie
 
     public static final String MOVIE_LIST = "MOVIE_LIST";
     public static final String COMMAND_STRING = "COMMAND_STRING";
+    public static final int TABLET_SIZE = 320;
     @BindView(R.id.id_thumbnail_layout)
     RecyclerView recyclerView;
 
@@ -90,7 +91,7 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbMovie
     }
 
     private boolean isTablet(float widthDp, float heightDp) {
-        return Math.min(widthDp, heightDp) >= 600;
+        return Math.min(widthDp, heightDp) >= TABLET_SIZE;
     }
 
     @Override
