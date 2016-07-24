@@ -26,11 +26,12 @@ import butterknife.ButterKnife;
 
 import static com.samir.popularmovies.service.SettiringManager.FAVORITE;
 
-public class MoviesActivity extends AppCompatActivity implements ThemoviedbMoviesDelegate {
+public class MoviesActivity extends AppCompatActivity implements ThemoviedbMoviesDelegate, MovieSelector {
 
     public static final String MOVIE_LIST = "MOVIE_LIST";
     public static final String COMMAND_STRING = "COMMAND_STRING";
     public static final int TABLET_SIZE = 600;
+    public static final String SELECTED_MOVIE = "SELECTED_MOVIE";
     @BindView(R.id.id_thumbnail_layout)
     RecyclerView recyclerView;
 
@@ -40,7 +41,6 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbMovie
 
     private Movie selectedMovie;
 
-    private ProgressDialog progress;
     private boolean mTwoPane = false;
 
     public MoviesActivity() {
@@ -57,7 +57,8 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbMovie
             mTwoPane = true;
         }
 
-        movieAdapter = new MovieAdapter(mTwoPane);
+        final MovieSelector movieSelector = (MovieSelector) this;
+        movieAdapter = new MovieAdapter(movieSelector);
         recyclerView.setAdapter(movieAdapter);
 
         final int spanCount = getSpanCount();
@@ -158,6 +159,7 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbMovie
 
         savedInstanceState.putParcelableArrayList(MOVIE_LIST, (ArrayList<? extends Parcelable>) movies);
         savedInstanceState.putString(COMMAND_STRING, commandString);
+        savedInstanceState.putParcelable(SELECTED_MOVIE, getSelectedMovie());
 
         super.onSaveInstanceState(savedInstanceState);
     }
@@ -166,18 +168,25 @@ public class MoviesActivity extends AppCompatActivity implements ThemoviedbMovie
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         commandString = savedInstanceState.getString(COMMAND_STRING);
+        setSelectedMovie((Movie) savedInstanceState.getParcelable(SELECTED_MOVIE));
         final ArrayList<Parcelable> parcelableArrayList = savedInstanceState.getParcelableArrayList(MOVIE_LIST);
         for(Parcelable parc : parcelableArrayList) {
             movieAdapter.addMovie((Movie) parc);
         }
     }
 
+    @Override
     public Movie getSelectedMovie() {
         return selectedMovie;
     }
 
-
+    @Override
     public void setSelectedMovie(Movie selectedMovie) {
         this.selectedMovie = selectedMovie;
+    }
+
+    @Override
+    public boolean ismTwoPane() {
+        return mTwoPane;
     }
 }

@@ -16,6 +16,7 @@ import com.samir.popularmovies.model.Movie;
 import com.samir.popularmovies.service.ThemoviedbService;
 import com.samir.popularmovies.ui.MovieInfoActivity;
 import com.samir.popularmovies.ui.MovieDetailFragment;
+import com.samir.popularmovies.ui.MovieSelector;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     private static boolean twopane;
 
-    private Movie selectedMovie;
+    private MovieSelector movieSelector;
 
     public void addMovie(final Movie movieDB) {
         movies.add(movieDB);
@@ -38,8 +39,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         movies.clear();
     }
 
-    public MovieAdapter(boolean twopane) {
-        this.twopane = twopane;
+    public MovieAdapter(MovieSelector selector) {
+        movieSelector = selector;
+        this.twopane = movieSelector.ismTwoPane();
     }
 
     public List<Movie> getMovies() {
@@ -62,7 +64,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    selectedMovie = movie;
+                    movieSelector.setSelectedMovie(movie);
                     goToDetail(movie);
                 }
             });
@@ -120,8 +122,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
         holder.movie = movie;
 
-        if (twopane && selectedMovie == null) {
-            selectedMovie = movies.get(0);
+        if (twopane && movieSelector.getSelectedMovie() == null) {
+            movieSelector.setSelectedMovie(movies.get(0));
             goToDetail(movie);
         }
 
